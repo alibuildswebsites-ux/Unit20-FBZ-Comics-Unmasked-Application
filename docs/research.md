@@ -1,29 +1,23 @@
 # Research Record — Unit 20 FBZ Application
 
-## Research scope
+## Primary sources
 
-The assignment brief requires investigation of SOLID development principles in OOP, clean coding, design patterns, data structures/algorithms, and automated testing, followed by design, implementation and testing evidence.
+1. **British Library — Collection Metadata Services / Researcher Format datasets.** The project uses the British Library's Comics Unmasked Researcher Format package specified by the assignment. The exact 2022 ZIP referenced by the brief was recovered from an Internet Archive snapshot of the original British Library download URL because the historical direct path now returns 404. The current British Library repository record is discoverable through DOI `10.23636/jyxw-xa90`, titled *Researcher Format Datasets from Collection Metadata*.
+2. **Python `csv` documentation.** The implementation uses `csv.DictReader` so quoted fields, commas and newline behaviour are handled by the standard parser instead of manual string splitting.
+3. **pytest documentation.** pytest supports test discovery, fixtures, assertion introspection and plugin-based reporting; it is used for the automated test regime.
+4. **Refactoring.Guru Strategy catalogue.** Strategy is a behavioural pattern for encapsulating interchangeable algorithms; this directly maps to the application's title/author/genre/year search algorithms.
+5. **Refactoring.Guru pattern catalogue.** The catalogue is used to classify patterns into creational, structural and behavioural families and to explain why patterns should be selected for concrete design problems.
 
-## Sources consulted
+## Dataset-specific findings
 
-1. Python 3.14 `csv` documentation — supports CSV dialect configuration and confirms the standard delimiter is comma unless another dialect/parameter is supplied. This supports using `csv.DictReader` rather than manually splitting rows.
-2. pytest documentation — fixtures are explicit, modular and scalable; pytest provides detailed assertion reporting, automatic discovery and fixture support. This supports a fixture-based automated testing regime.
-3. Refactoring.Guru Strategy documentation — Strategy separates interchangeable algorithm variants into separate classes behind a common interface. This is directly applicable to title/author/genre/year searching.
-4. Refactoring.Guru Factory Method documentation — factories can separate construction from client code and reduce coupling to concrete implementations. The project uses a simple factory for strategy creation and documents the distinction from the formal Factory Method pattern.
-5. Refactoring.Guru design-pattern catalogue — patterns are grouped as creational, structural and behavioural; the catalogue provides the classification used in the assessment discussion.
+The supplied package contains exactly five CSV views: records, names, titles, topics and classification. The project verified their actual row/column counts and found that every observed BL record ID begins with a leading zero. The names view has 117,873 rows but only 54,147 unique record IDs, confirming that facet rows must be aggregated for a single-record encyclopedia display.
 
-## Research-to-design conclusions
+Observed exact genre counts in the aggregated names view are Fantasy 4,793, Horror 1,929 and Science Fiction 9,356. These values are generated from the integrated dataset and saved in `reports/real_dataset_analysis.json`.
 
-- Search variants are a natural Strategy use case because the application must provide several interchangeable search algorithms.
-- A factory is useful at the composition boundary so the service does not depend on concrete search strategy constructors.
-- Repository abstraction is appropriate for dependency inversion and enables in-memory repositories for automated tests.
-- CSV values are loaded as strings so identifiers can retain leading zeros and so source metadata is not silently coerced into the wrong type.
-- pytest fixtures are suitable for repeatable test data and temporary-file scenarios.
+## Design conclusions
 
-## Web citations
-
-Python CSV documentation: https://docs.python.org/3/library/csv.html
-pytest documentation: https://docs.pytest.org/en/stable/
-Strategy pattern: https://refactoring.guru/design-patterns/strategy
-Factory Method: https://refactoring.guru/design-patterns/factory-method
-Pattern catalogue: https://refactoring.guru/design-patterns/catalog
+- Strategy is the natural fit for interchangeable search algorithms.
+- A simple factory keeps construction out of the application service.
+- Repository abstraction supports dependency inversion and testing with in-memory data.
+- Aggregating repository behaviour preserves the source views while satisfying the user-facing “one record entry” requirement.
+- CSV identifiers remain strings to preserve leading zeroes.

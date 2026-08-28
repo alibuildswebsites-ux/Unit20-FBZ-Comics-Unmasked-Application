@@ -27,6 +27,7 @@ class Comic:
     country_of_publication: str = ""
     place_of_publication: str = ""
     publisher: str = ""
+    edition: str = ""
     date_of_publication: str = ""
     physical_description: str = ""
     dewey_classification: str = ""
@@ -71,6 +72,7 @@ class Comic:
             "Country of publication": "country_of_publication",
             "Place of publication": "place_of_publication",
             "Publisher": "publisher",
+            "Edition": "edition",
             "Date of publication": "date_of_publication",
             "Physical description": "physical_description",
             "Dewey classification": "dewey_classification",
@@ -82,6 +84,8 @@ class Comic:
         }
         for csv_key, field_name in field_map.items():
             values[field_name] = _clean(row.get(csv_key))
+        if not values["topics"] and "Topic" in row:
+            values["topics"] = _clean(row.get("Topic"))
         if not values["record_id"]:
             raise ValueError("Record is missing BL record ID")
         if not values["title"]:

@@ -1,0 +1,353 @@
+{
+  "source": "British Library Comics Unmasked 2022 researcher-format package recovered from Internet Archive snapshot",
+  "raw_names_rows": 117873,
+  "unique_names_view_records": 54147,
+  "genre_record_counts": {
+    "fantasy": 4793,
+    "horror": 1929,
+    "science fiction": 9356
+  },
+  "examples": {
+    "fantasy": [
+      {
+        "record_id": "013470413",
+        "title": "Yoshitoshi ABe's Haibane Renmei anime manga",
+        "name": "ABe, Yoshitoshi;Geneon Entertainment (Usa);Jaffe, Taliesin;Jarvis, Mulele;Klein, Jonathan",
+        "genre": "Comic or graphic novel;Fantasy;Novel",
+        "year": "2006-"
+      },
+      {
+        "record_id": "015955657",
+        "title": "Astonishing Spider-Man and Wolverine",
+        "name": "Aaron, Jason;Kubert, Adam",
+        "genre": "Comic or graphic novel;Fantasy;Fiction",
+        "year": "2012"
+      },
+      {
+        "record_id": "016863004",
+        "title": "Thor : god of thunder. Volume 1",
+        "name": "Aaron, Jason;Guice, Jackson;Ribic, Esad",
+        "genre": "Comic or graphic novel;Fantasy;Fiction",
+        "year": "2014"
+      }
+    ],
+    "horror": [
+      {
+        "record_id": "017766293",
+        "title": "Alice Cooper vs. Chaos",
+        "name": "A Larger World Studios;Oliva, Aikau;Seeley, Tim;Terry, Jim",
+        "genre": "Comic or graphic novel;Fiction;Horror",
+        "year": "2016"
+      },
+      {
+        "record_id": "014702816",
+        "title": "Friday the 13th. Book 2",
+        "name": "Aaron, Jason;Andreyko, Marc;Fialkov, Joshua Hale;Marz, Ron",
+        "genre": "Comic or graphic novel;Fiction;Horror",
+        "year": "2008"
+      },
+      {
+        "record_id": "015809719",
+        "title": "Trout",
+        "name": "Abad, Bong;Magid, Ben",
+        "genre": "Comic or graphic novel;Fiction;Horror",
+        "year": "2011"
+      }
+    ],
+    "science fiction": [
+      {
+        "record_id": "017381699",
+        "title": "Steins;gate. Volume 1",
+        "name": "5pb;Nitroplus;Sarachi, Yomi",
+        "genre": "Science fiction",
+        "year": "2015"
+      },
+      {
+        "record_id": "017533820",
+        "title": "Steins;Gate. Volume 2",
+        "name": "5pb;Nitroplus;Sarachi, Yomi",
+        "genre": "Science fiction",
+        "year": "2015"
+      },
+      {
+        "record_id": "017745202",
+        "title": "Steins;Gate. Volume 3",
+        "name": "5pb, Inc. (Firm);Nitroplus (Firm);Sarachi, Yomi",
+        "genre": "Science fiction",
+        "year": "2016"
+      }
+    ],
+    "title_search": [
+      {
+        "record_id": "018171022",
+        "title": "Batman '66 meets Steed and Mrs Peel",
+        "name": "Abbott, Wes;Allred, Laura;Allred, Mike (Mike Dalton);Bellaire, Jordie;Broome, Wendy;Edginton, Ian;Smith, Matthew Dow;Strachan, Carrie",
+        "genre": "Comic or graphic novel;Fiction",
+        "year": "2017"
+      },
+      {
+        "record_id": "017944055",
+        "title": "Batman/Detective Comics. Volume 8. Blood of heroes",
+        "name": "Abbott, Wes;Blanco, Fernando;Buccellato, Brian;Fawkes, Ray;Fletcher, Jared K.;Manapul, Francis;Pugh, Steve;Sotomayor, Chris;Takara, Marcio;Tomasi, Peter",
+        "genre": "Comic or graphic novel;Fiction",
+        "year": "2016"
+      },
+      {
+        "record_id": "017009734",
+        "title": "Batman '66 meets the Green Hornet",
+        "name": "Abbott, Wes;Aviña, Tony;Bogdanove, Jon;Garman, Ralph;Smith, Kevin;Templeton, Ty",
+        "genre": "Comic or graphic novel;Fiction",
+        "year": "2015"
+      },
+      {
+        "record_id": "018149971",
+        "title": "Batman/Detective Comics. Volume 9. Gordon at war",
+        "name": "Abbott, Wes;Eaton, Scot;Faucher, Wayne;Pasarin, Fernando;Robinson, Andrew (Andrew C.);Ryan, Matt;Sotomayor, Chris;Tomasi, Peter",
+        "genre": "Comic or graphic novel;Fiction",
+        "year": "2016"
+      },
+      {
+        "record_id": "017094816",
+        "title": "Batman '66. Vol. 2",
+        "name": "Abbott, Wes;Aviña, Tony;Donovan, Derec;Jones, Christopher;Jones, Joëlle;Kane, Bob;Naifeh, Ted;Parker, Jeff;Peyer, Tom;Procopio, Rubén;Rousseau, Craig;Shannon, Kelsey;Sprouse, Chris;Story, Karl C.;Templeton, Ty;Williams, David",
+        "genre": "Comic or graphic novel;Science fiction",
+        "year": "2015"
+      }
+    ],
+    "advanced_search": [
+      {
+        "record_id": "013537767",
+        "title": "Sorcerer Hunters",
+        "name": "Akahori, Satoru;Omishi, Rei",
+        "genre": "Comic or graphic novel;Fantasy;Fiction",
+        "year": "2000-"
+      },
+      {
+        "record_id": "011630097",
+        "title": "Big baby",
+        "name": "Burns, Charles",
+        "genre": "Fantasy",
+        "year": "2000"
+      },
+      {
+        "record_id": "006745268",
+        "title": "Batman: no man's land",
+        "name": "D'Israeli;Rucka, Greg",
+        "genre": "Comic or graphic novel;Fantasy",
+        "year": "2000"
+      },
+      {
+        "record_id": "010761617",
+        "title": "All hell's a'coming",
+        "name": "Dillon, Steve;Ennis, Garth",
+        "genre": "Comic or graphic novel;Fantasy",
+        "year": "2000"
+      },
+      {
+        "record_id": "006745033",
+        "title": "Promethea",
+        "name": "Gray, Mick;Moore, Alan;Williams, J. H., iii",
+        "genre": "Comic or graphic novel;Fantasy;Fiction",
+        "year": "2000"
+      }
+    ],
+    "classification_search": [
+      {
+        "record_id": "019368673",
+        "title": "The devil is a part-timer!. 12",
+        "name": "029;Blakeslee, Brndn;Gifford, Kevin;Hiiragi, Akio;Wagahara, Satoshi",
+        "genre": "Novel;Young adult fiction",
+        "year": "2018"
+      },
+      {
+        "record_id": "018003156",
+        "title": "The devil is a part-timer!. 5. High school!",
+        "name": "029;Blakeslee, Brndn;Gifford, Kevin;Mishima, Kurone;Wagahara, Satoshi",
+        "genre": "Comic or graphic novel;Novel;Translations into English",
+        "year": "2016"
+      },
+      {
+        "record_id": "010123153",
+        "title": "The 100 British cartoonists of the century",
+        "name": "100 British Cartoonists of the Century (Exhibition), British Cartoon Centre, the Centre for the Study of Cartoons, Caricature;Cartoon Art Trust",
+        "genre": "Exhibition",
+        "year": "2000"
+      },
+      {
+        "record_id": "015486306",
+        "title": "Private lines : the collection",
+        "name": "45726;Walmsley, Ian",
+        "genre": "Caricature or cartoon",
+        "year": "2009"
+      },
+      {
+        "record_id": "017381699",
+        "title": "Steins;gate. Volume 1",
+        "name": "5pb;Nitroplus;Sarachi, Yomi",
+        "genre": "Science fiction",
+        "year": "2015"
+      }
+    ],
+    "names_search": [
+      {
+        "record_id": "017604643",
+        "title": "Thors",
+        "name": "Aaron, Jason;Kirby, Jack;Lee, Stan;Lieber, Larry;Moss, Wil;Simonson, Walter;Sprouse, Chris;Suǆuka, Goran",
+        "genre": "Comic or graphic novel",
+        "year": "2016"
+      },
+      {
+        "record_id": "017953932",
+        "title": "Marvel's Doctor Strange prelude",
+        "name": "Aaron, Jason;Lee, Stan;Vaughan, Brian K.",
+        "genre": "Comic or graphic novel;Fiction",
+        "year": "2016"
+      },
+      {
+        "record_id": "017649116",
+        "title": "X-Men. In the shadow of Sauron",
+        "name": "Adams, Neal;Buscema, Sal;Conway, Gerry;Heck, Don;Lee, Stan;Marvel Comics Group;Sutton, Tom;Thomas, Roy",
+        "genre": "",
+        "year": "2015"
+      },
+      {
+        "record_id": "017753300",
+        "title": "The Avengers : Kree-Skrull war",
+        "name": "Adams, Neal;Buscema, John;Buscema, Sal;Lee, Stan;Thomas, Roy",
+        "genre": "",
+        "year": "2016"
+      },
+      {
+        "record_id": "016444307",
+        "title": "The mighty Thor. When gods go mad",
+        "name": "Adams, Neal;Buscema, John;Kirby, Jack;Lee, Stan",
+        "genre": "Comic or graphic novel;Fiction;Science fiction",
+        "year": "2013"
+      }
+    ],
+    "topics_search": [
+      {
+        "record_id": "015856150",
+        "title": "Scalped. You gotta sin to get saved",
+        "name": "Aaron, Jason;Brusco, Giulia;Furnò, Davide;Guéra, R. M.;Latour, Jason;Wands, Steve",
+        "genre": "Comic or graphic novel;Fiction",
+        "year": "2011"
+      },
+      {
+        "record_id": "015494474",
+        "title": "Punisher Max. Kingpin",
+        "name": "Aaron, Jason;Alonso, Axel;Dillon, Steve;Girner, Sebastian",
+        "genre": "Comic or graphic novel;Novel;Science fiction",
+        "year": "2010"
+      },
+      {
+        "record_id": "015357766",
+        "title": "Scalped. High lonesome",
+        "name": "Aaron, Jason;Guéra, R. M.",
+        "genre": "Comic or graphic novel;Fiction;Novel",
+        "year": "2009"
+      },
+      {
+        "record_id": "014702768",
+        "title": "Dead mothers",
+        "name": "Aaron, Jason;Guéra, R. M.;Leon, John Paul",
+        "genre": "Comic or graphic novel;Fiction;Novel",
+        "year": "2008"
+      },
+      {
+        "record_id": "015715973",
+        "title": "Scalped. Rez blues",
+        "name": "Aaron, Jason;Furnò, Davide;Guéra, R. M.;Žeželj, Danijel",
+        "genre": "Comic or graphic novel;Fiction;Novel",
+        "year": "2011"
+      }
+    ]
+  },
+  "top_search_queries": [
+    [
+      "genre:fantasy",
+      2
+    ],
+    [
+      "genre:horror",
+      2
+    ],
+    [
+      "genre:science fiction",
+      2
+    ],
+    [
+      "title:batman",
+      1
+    ],
+    [
+      "advanced:author=,year=2000,genre=fantasy,edition=,languages=,name_type=,title=",
+      1
+    ],
+    [
+      "classification:741.5",
+      1
+    ],
+    [
+      "names:lee, stan",
+      1
+    ],
+    [
+      "topics:crime",
+      1
+    ]
+  ],
+  "top_search_results": [
+    {
+      "record_id": "018252029",
+      "title": "Erased. 2",
+      "count": 6
+    },
+    {
+      "record_id": "015690800",
+      "title": "Superman/ Batman. Big noise",
+      "count": 6
+    },
+    {
+      "record_id": "019049111",
+      "title": "Injection",
+      "count": 6
+    },
+    {
+      "record_id": "015715962",
+      "title": "Batman vs. the undead",
+      "count": 6
+    },
+    {
+      "record_id": "018037945",
+      "title": "Sasquatch",
+      "count": 5
+    },
+    {
+      "record_id": "015505799",
+      "title": "B.P.R.D. 1947",
+      "count": 5
+    },
+    {
+      "record_id": "015468804",
+      "title": "Mike Mignola's B.P.R.D. War on frogs",
+      "count": 5
+    },
+    {
+      "record_id": "014904150",
+      "title": "Mike Mignola's B.P.R.D. The warning",
+      "count": 5
+    },
+    {
+      "record_id": "013629593",
+      "title": "Ultimate Spider-Man: ultimate collection. Book 1",
+      "count": 5
+    },
+    {
+      "record_id": "016163485",
+      "title": "True blood. Where were you?",
+      "count": 5
+    }
+  ],
+  "over_100": []
+}
