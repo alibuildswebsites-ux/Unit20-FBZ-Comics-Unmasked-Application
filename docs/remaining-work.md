@@ -19,4 +19,4 @@ All 16 recommendations from the final audit have been addressed in the current p
 15. **Submission metadata:** final generated deliverables contain clear Unit 20/FBZ titles and submission-purpose information.
 16. **Assessment matrix:** rewritten to reflect evidence-backed criterion status rather than blanket PASS claims.
 
-The remaining activity is only final packaging/visual inspection after the latest generated deliverables are built and audited. The current suite has 30 passing tests and the real-data acceptance script passes.
+The previously identified functional gaps are now closed: all missing display fields normalise to `missing`, semicolon/slash/pipe multi-values are displayed consistently, and the interactive genre → group → sort workflow is complete. The current suite has 33 passing tests and the real-data acceptance script passes. Final packaging and visual inspection are now complete: both DOCX reports render successfully (6 and 5 pages), the PPTX renders to 12 slides, all 12 slides contain speaker notes, and no stale 29/30-test wording remains in the maintained documentation or deliverables. There are no known outstanding assignment requirements.

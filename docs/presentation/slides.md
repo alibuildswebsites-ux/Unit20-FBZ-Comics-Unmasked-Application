@@ -98,11 +98,11 @@ Strategy is the clearest behavioural pattern in the application. Title, author, 
 - Fantasy 4,793 / Horror 1,929 / Science Fiction 9,356
 
 **Speaker notes**
-The final acceptance run uses the actual Comics Unmasked package. All five views match the observed row counts and preserve leading-zero BL record IDs. The aggregated names view has 54,147 unique records. Exact genre filtering produces 4,793 Fantasy records, 1,929 Horror records and 9,356 Science Fiction records. The acceptance run also checks a real author-role search, a title containing Unicode characters, a missing ISBN, multi-value metadata and both title-order directions. This is important evidence because synthetic fixtures can prove algorithmic behaviour but cannot prove that our assumptions match the supplied dataset.
+The final acceptance run uses the actual Comics Unmasked package. All five views match the observed row counts and preserve leading-zero BL record IDs. The aggregated names view has 54,147 unique records. Exact genre filtering produces 4,793 Fantasy records, 1,929 Horror records and 9,356 Science Fiction records. The acceptance run also checks a real author-role search, a title containing Unicode characters, universal missing-value display, a missing ISBN, consistent multi-value metadata display and both title-order directions. This is important evidence because synthetic fixtures can prove algorithmic behaviour but cannot prove that our assumptions match the supplied dataset.
 
 ## Slide 11 — Automated testing
 **On slide**
-- 29 automated tests pass
+- 33 automated tests pass
 - Unit
 - Integration
 - CLI / E2E
@@ -110,7 +110,7 @@ The final acceptance run uses the actual Comics Unmasked package. All five views
 - >100 notification verified
 
 **Speaker notes**
-The current automated suite has 30 passing tests. Unit tests focus on domain and strategy behaviour. Integration tests verify CSV-to-service boundaries and all five official views. End-to-end tests verify user-visible no-result and ordering behaviour. The real-data acceptance script checks the actual dataset and writes a machine-readable report. The >100 requirement is demonstrated deterministically by running the same real Comic through 101 search inclusions and verifying that the notification is triggered. Coverage is useful as a diagnostic, but it is not treated as proof of correctness. pytest fixtures provide reusable test contexts, while the test-pyramid idea supports keeping fast focused tests as the larger base.
+The current automated suite has 33 passing tests. Unit tests focus on domain and strategy behaviour. Integration tests verify CSV-to-service boundaries and all five official views. End-to-end tests verify user-visible no-result and ordering behaviour. The real-data acceptance script checks the actual dataset and writes a machine-readable report. The >100 requirement is demonstrated deterministically by running the same real Comic through 101 search inclusions and verifying that the notification is triggered. Coverage is useful as a diagnostic, but it is not treated as proof of correctness. pytest fixtures provide reusable test contexts, while the test-pyramid idea supports keeping fast focused tests as the larger base.
 
 ## Slide 12 — Evaluation and conclusion
 **On slide**

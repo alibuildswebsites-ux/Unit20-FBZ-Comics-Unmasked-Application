@@ -1,4 +1,25 @@
-..............................                                           [100%]
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0
+rootdir: /root/Desktop/Unit20_FBZ_Dataset_Processing_Application
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-6.3.0
+collected 33 items
+
+tests/e2e/test_cli.py ....                                               [ 12%]
+tests/integration/test_all_five_views.py .                               [ 15%]
+tests/integration/test_application_flow.py .                             [ 18%]
+tests/integration/test_real_dataset.py ..                                [ 24%]
+tests/unit/test_aggregation.py .                                         [ 27%]
+tests/unit/test_comic_model.py ...                                       [ 36%]
+tests/unit/test_favourites.py .                                          [ 39%]
+tests/unit/test_phase1_acceptance.py ....                                [ 51%]
+tests/unit/test_phase2_acceptance.py ...                                 [ 60%]
+tests/unit/test_phase2_more.py .....                                     [ 75%]
+tests/unit/test_repository.py ...                                        [ 84%]
+tests/unit/test_search.py ....                                           [ 96%]
+tests/unit/test_statistics.py .                                          [100%]
+
 ================================ tests coverage ================================
 _______________ coverage: platform linux, python 3.12.3-final-0 ________________
 
@@ -6,12 +27,12 @@ Name                                                   Stmts   Miss  Cover   Mis
 ------------------------------------------------------------------------------------
 src/fbz/__init__.py                                        0      0   100%
 src/fbz/domain/__init__.py                                 0      0   100%
-src/fbz/domain/comic.py                                   83      2    98%   70, 106
+src/fbz/domain/comic.py                                   83      3    96%   70, 106, 142
 src/fbz/domain/search_criteria.py                          9      0   100%
 src/fbz/factories/__init__.py                              0      0   100%
 src/fbz/factories/search_strategy_factory.py              12      3    75%   26-28
 src/fbz/presentation/__init__.py                           0      0   100%
-src/fbz/presentation/cli.py                              135     80    41%   46-113, 117-129, 137-138, 143, 147-151, 157-163, 166, 174
+src/fbz/presentation/cli.py                              152     60    61%   56, 59-60, 68-70, 73-74, 79-80, 82-88, 90-92, 94-105, 107, 109-119, 121-122, 128-130, 134-146, 160, 164-168, 174-180, 183, 191
 src/fbz/repositories/__init__.py                           0      0   100%
 src/fbz/repositories/aggregating_comic_repository.py      44      1    98%   55
 src/fbz/repositories/comic_repository.py                  13      1    92%   14
@@ -19,11 +40,11 @@ src/fbz/repositories/csv_comic_repository.py              30      2    93%   25,
 src/fbz/repositories/xml_comic_repository.py              21      1    95%   20
 src/fbz/services/__init__.py                               0      0   100%
 src/fbz/services/dataset_statistics.py                    14      0   100%
-src/fbz/services/encyclopedia_service.py                 131     12    91%   35, 52, 64, 98, 111-112, 125-126, 162-163, 166-167
+src/fbz/services/encyclopedia_service.py                 132     12    91%   35, 52, 64, 98, 111-112, 125-126, 162-163, 166-167
 src/fbz/services/favourite_service.py                     33      3    91%   18-19, 21
 src/fbz/services/search_service.py                        25      2    92%   24, 34
 src/fbz/strategies/__init__.py                             0      0   100%
 src/fbz/strategies/search_strategy.py                     24      1    96%   14
 ------------------------------------------------------------------------------------
-TOTAL                                                    574    108    81%
-30 passed in 27.11s
+TOTAL                                                    592     89    85%
+============================= 33 passed in 25.08s ==============================

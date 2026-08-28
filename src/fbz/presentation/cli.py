@@ -55,9 +55,26 @@ def _interactive(service: EncyclopediaService) -> None:
                 if mode not in {"author", "year"}:
                     raise ValueError("Grouping must be author or year")
                 grouped = service.group_results(results, mode)
-                ordered = service.sorted_titles(results, ascending=True)
+                if not grouped:
+                    print("No groups found for the selected genre.")
+                    continue
+                group_names = list(grouped)
+                print("Available groups:")
+                for number, group_name in enumerate(group_names, start=1):
+                    print(f"[{number}] {group_name} ({len(grouped[group_name])})")
+                try:
+                    group_index = int(input("Select a group: ").strip()) - 1
+                    selected_group = group_names[group_index]
+                except (ValueError, IndexError):
+                    print("Invalid group number.")
+                    continue
+                order = input("Order titles A-Z or Z-A? [az/za]: ").strip().casefold()
+                if order not in {"az", "za"}:
+                    print("Order must be az or za.")
+                    continue
+                ordered = service.sorted_titles(grouped[selected_group], ascending=order == "az")
+                print(f"Group: {selected_group} | Order: {'A-Z' if order == 'az' else 'Z-A'}")
                 _print_results(service, ordered)
-                print(f"Groups: {len(grouped)}")
             elif choice == "2":
                 results = service.search_title(input("Title: "))
                 _print_results(service, results)

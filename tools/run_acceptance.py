@@ -78,6 +78,9 @@ def main() -> None:
     if special_character is None or not service.search_title(special_character.title[: max(1, min(12, len(special_character.title))) ]):
         raise AssertionError('Unicode/special-character title search was not demonstrated on the real dataset')
 
+    missing_value = next((comic for comic in comics if not comic.publisher), None)
+    if missing_value is None or service.format_record(missing_value)['Publisher'] != 'missing':
+        raise AssertionError('Universal missing-value display rule was not demonstrated on the real dataset')
     missing_isbn = next((comic for comic in comics if not comic.isbn), None)
     if missing_isbn is None or service.format_record(missing_isbn)['ISBN'] != 'missing':
         raise AssertionError('Missing ISBN display rule was not demonstrated on the real dataset')
@@ -85,6 +88,12 @@ def main() -> None:
     multi_value = next((comic for comic in comics if len(comic.tokens('genre')) > 1), None)
     if multi_value is None or len(multi_value.tokens('genre')) < 2:
         raise AssertionError('Multi-value genre handling was not demonstrated on the real dataset')
+    formatted_multi = service.format_record(multi_value)
+    if not isinstance(formatted_multi['Genre'], list) or len(formatted_multi['Genre']) < 2:
+        raise AssertionError('Multi-value genre display was not demonstrated on the real dataset')
+    multi_name = next((comic for comic in comics if len(comic.tokens('name')) > 1), None)
+    if multi_name is None or not isinstance(service.format_record(multi_name)['Name'], list):
+        raise AssertionError('Multi-value name display was not demonstrated on the real dataset')
 
     # Multiple rows / titles are evidenced by raw-vs-aggregated cardinality.
     aggregation_evidence = {
@@ -133,8 +142,9 @@ def main() -> None:
         'aggregation_evidence': aggregation_evidence,
         'author_acceptance': {'query': real_author, 'result_count': len(author_results), 'sample': serialise(author_results[:5]), 'pass': True},
         'special_character_acceptance': {'record_id': special_character.record_id, 'title': special_character.title, 'pass': True},
+        'missing_value_acceptance': {'record_id': missing_value.record_id, 'title': missing_value.title, 'field': 'Publisher', 'pass': True},
         'missing_isbn_acceptance': {'record_id': missing_isbn.record_id, 'title': missing_isbn.title, 'pass': True},
-        'multi_value_acceptance': {'record_id': multi_value.record_id, 'genre_tokens': list(multi_value.tokens('genre')), 'pass': True},
+        'multi_value_acceptance': {'record_id': multi_value.record_id, 'genre_tokens': list(multi_value.tokens('genre')), 'name_display_verified': True, 'pass': True},
         'ordering_acceptance': ordering_evidence,
         'threshold_acceptance': threshold_evidence,
         'examples': {key: serialise(value) for key, value in examples.items()},

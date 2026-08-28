@@ -12,7 +12,7 @@ The brief identifies the British Library Comics Unmasked Researcher Format packa
 
 The real package was inspected rather than replaced with a synthetic dataset. The observed views are: records.csv 57,746 rows; names.csv 117,873; titles.csv 77,280; topics.csv 77,919; classification.csv 57,844. Every observed BL record ID begins with a leading zero. The names view contains 117,873 facet rows but only 54,147 unique record IDs, so the user-facing encyclopedia must aggregate repeated facet rows without changing the raw source views.
 
-The assignment annex explains that repeated values may be separated by semicolons and that multiple facet values can occur within one record. The implementation therefore keeps source values as strings, tokenises multi-value fields at the domain boundary, and uses a repository decorator to collapse repeated BL record IDs into one user-facing record.
+The assignment annex explains that repeated values may be separated by semicolons and that multiple facet values can occur within one record. The implementation therefore keeps source values as strings, tokenises multi-value fields at the domain boundary, displays delimiter-packed values consistently, normalises blank display values to `missing`, and uses a repository decorator to collapse repeated BL record IDs into one user-facing record.
 
 ## 3. OOP relationships research
 

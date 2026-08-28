@@ -161,7 +161,7 @@ def build_design_doc() -> int:
 
     doc.add_heading('1. Scenario, scope and requirements', 1)
     doc.add_paragraph(
-        'The assignment scenario describes Fantasy Bazaar (FBZ), a local comic-book shop that needs a data-processing application around the British Library Comics Unmasked metadata. The required solution is not simply a working search script: the brief asks for investigation of object-oriented programming and SOLID principles, clean coding, design patterns and an automated testing regime. The functional scenario requires the dataset to be loaded into memory; users must be able to browse Fantasy, Horror and Science Fiction records, group them by author or publication year, order titles alphabetically in both directions, search manually by title, handle special characters, repeated values, missing ISBN values and multiple title rows, save results to an in-memory search list, perform advanced searches, and report popular searches/results. The later testing scenario requires evidence from automated tests and comparison of developer-produced and vendor/framework-supported testing approaches.'
+        'The assignment scenario describes Fantasy Bazaar (FBZ), a local comic-book shop needing a data-processing application around British Library Comics Unmasked metadata. The brief evaluates OOP/SOLID, clean coding, design patterns and automated testing. Functionally, the dataset is loaded into memory; users browse the three required genres, group by author or publication year, sort titles both ways, search titles, handle special characters, repeated values, missing entries and multiple title rows, save an in-memory search list, perform advanced searches, and report popular searches/results. The testing scenario additionally requires evidence from automated methods and comparison of developer-produced and vendor/framework-supported tooling.'
     )
     doc.add_paragraph(
         'The implementation follows those requirements through a layered Python application. Presentation is kept in the CLI, application services coordinate use cases, domain classes represent catalogue concepts, repositories isolate data access, and Strategy/Factory objects isolate interchangeable search algorithms. This separation makes the design criteria visible in the implementation rather than describing SOLID only in the written report (British Library, n.d.; Chebanyuk and Markov, 2016).'
@@ -199,7 +199,7 @@ def build_design_doc() -> int:
         ('DIP', 'Services depend on `ComicRepository`, not CSV implementation.', 'Enables isolated tests and alternative sources; dependency injection adds setup.'),
     ])
     doc.add_paragraph(
-        'Chebanyuk and Markov (2016) treat SOLID as structural design principles that can be examined through class relationships. In FBZ, the strongest practical effect is change isolation. A new search algorithm does not require rewriting existing search algorithms, and a different repository implementation can be supplied without rewriting the service. The cost is abstraction overhead: a tiny one-off script could be shorter without these boundaries. Because FBZ has multiple search behaviours, multiple source views, an XML extension point and a testing requirement, the additional structure is justified.'
+        'Chebanyuk and Markov (2016) treat SOLID as structural design principles. In FBZ, the strongest practical effect is change isolation: new search algorithms and repository implementations can be supplied without rewriting existing services. The cost is abstraction overhead; a tiny one-off script could be shorter. FBZ has multiple search behaviours, source views, an XML extension point and testing requirements, so the added structure is justified.'
     )
 
     doc.add_heading('5. Clean coding, data structures and algorithms', 1)
@@ -230,8 +230,11 @@ def build_design_doc() -> int:
         ('Author grouping/search', 'Contributor role preservation + author strategy', 'Real author acceptance query passes'),
         ('Year grouping', 'Publication-year token grouping', 'Unit and real-data acceptance'),
         ('A–Z / Z–A', 'Case-folded stable title sort', 'Acceptance checks both directions + CLI E2E'),
+        ('Interactive group workflow', 'Genre → author/year → group selection → A–Z/Z–A', 'CLI E2E acceptance'),
         ('Special characters', 'UTF-8 CSV + Unicode strings', 'Real Unicode title acceptance'),
-        ('Repeated values', 'Tokenisation of semicolon/slash-separated fields', 'Real multi-value acceptance'),
+        ('Repeated values', 'Tokenisation of semicolon/slash/pipe-separated fields', 'Real multi-value acceptance'),
+        ('Multi-value display', 'Every delimiter-packed field is displayed as separate values', 'Unit + real-data display acceptance'),
+        ('Missing values', 'All blank display fields normalise to `missing`', 'Real missing-Publisher acceptance'),
         ('Missing ISBN', 'Display normalised to `missing`', 'Real missing-ISBN acceptance'),
         ('Multiple rows/titles', 'Aggregation by BL record ID', '117,873 → 54,147 records'),
         ('Search list', 'In-memory tuple', 'Unit test proves no disk persistence'),
@@ -248,7 +251,7 @@ def build_design_doc() -> int:
         'pytest documentation describes fixtures as explicit, modular and scalable test contexts (pytest, n.d.). Fowler’s Test Pyramid argues for many fast focused tests with fewer broad-stack tests (Fowler, 2012). The FBZ suite follows that principle. Katalon (2022) and SmartBear (n.d.) informed the comparison of data-driven, modular, hybrid and record/playback approaches. For this Python CLI, pytest is proportionate because the dominant risks are parsing, domain logic and service boundaries rather than browser rendering.'
     )
     doc.add_paragraph(
-        'The final suite contains 30 passing automated tests. The acceptance report records the five-view row counts, 54,147 aggregated records, exact genre counts, a real author query, a Unicode title, a missing ISBN, multi-value genre tokens, both sort directions and a deterministic threshold notification after 101 search inclusions. This evidence is stronger than a coverage number alone because each result is tied to an assignment requirement.'
+        'The final suite contains 33 passing automated tests. The acceptance report records the five-view row counts, 54,147 aggregated records, exact genre counts, a real author query, a Unicode title, universal missing-value display, missing ISBN, multi-value field display, both sort directions and a deterministic threshold notification after 101 search inclusions. This evidence is stronger than a coverage number alone because each result is tied to an assignment requirement.'
     )
 
     doc.add_heading('9. Critical evaluation and conclusion', 1)
@@ -341,7 +344,7 @@ def build_testing_doc() -> int:
 
     doc.add_heading('6. Final test results and reporting', 1)
     doc.add_paragraph(
-        'The current automated suite contains 30 passing tests. `reports/final_acceptance_report.json` is the machine-readable acceptance record and `reports/real_dataset_analysis.json` contains the five-view schema/scale analysis. The test suite intentionally includes both synthetic fixtures and the real package: synthetic fixtures isolate edge cases such as an editor-versus-author collision, while the real acceptance run validates the dataset-specific assumptions.'
+        'The current automated suite contains 33 passing tests. `reports/final_acceptance_report.json` is the machine-readable acceptance record and `reports/real_dataset_analysis.json` contains the five-view schema/scale analysis. The test suite intentionally includes both synthetic fixtures and the real package: synthetic fixtures isolate edge cases such as an editor-versus-author collision, while the real acceptance run validates the dataset-specific assumptions.'
     )
     doc.add_paragraph(
         'The main benefits of this approach are repeatability, rapid regression feedback, deterministic edge-case coverage and safer refactoring. The drawbacks are test authoring and maintenance cost, longer execution time as the suite grows, and the possibility of false confidence if tests contain weak assertions. A unit test can pass while a real CSV schema is wrong; an end-to-end test can catch the wiring issue but be more expensive. The layered strategy balances these risks.'

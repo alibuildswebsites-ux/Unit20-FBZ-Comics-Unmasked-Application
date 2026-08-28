@@ -36,3 +36,26 @@ def test_search_list_does_not_persist_to_disk(tmp_path: Path) -> None:
     service = EncyclopediaService(InMemoryComicRepository([make()]))
     service.save_to_search_list(make())
     assert not list(tmp_path.iterdir())
+
+
+def test_format_record_displays_all_missing_fields_as_missing() -> None:
+    comic = Comic.from_mapping({"BL record ID": "0001", "Title": "Incomplete"})
+    service = EncyclopediaService(InMemoryComicRepository([comic]))
+    formatted = service.format_record(comic)
+    assert formatted["ISBN"] == "missing"
+    assert formatted["Publisher"] == "missing"
+    assert formatted["Topics"] == "missing"
+
+
+def test_format_record_displays_multiple_values_consistently() -> None:
+    comic = Comic.from_mapping({
+        "BL record ID": "0002", "Title": "Multi",
+        "Name": "Alice;Bob", "ISBN": "111;222", "Publisher": "One;Two",
+        "Genre": "Fantasy;Horror",
+    })
+    service = EncyclopediaService(InMemoryComicRepository([comic]))
+    formatted = service.format_record(comic)
+    assert formatted["Name"] == ["Name: Alice", "Name: Bob"]
+    assert formatted["ISBN"] == ["ISBN: 111", "ISBN: 222"]
+    assert formatted["Publisher"] == ["Publisher: One", "Publisher: Two"]
+    assert formatted["Genre"] == ["Genre: Fantasy", "Genre: Horror"]

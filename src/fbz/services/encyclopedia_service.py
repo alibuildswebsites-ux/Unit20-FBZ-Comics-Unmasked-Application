@@ -184,10 +184,14 @@ class EncyclopediaService:
             ("notes", "Notes"),
         ):
             raw = getattr(comic, field_name)
-            if label == "ISBN" and not raw:
-                raw = "missing"
-            tokens = comic.tokens(field_name) if field_name in {"genre", "topics", "languages", "content_type"} else ()
-            values[label] = [f"{label}: {token}" for token in tokens] if tokens else raw
+            if not raw:
+                values[label] = "missing"
+                continue
+            # The BL annex permits repeated values separated by semicolons (and
+            # the domain also accepts slash/pipe variants). Display every value
+            # consistently instead of leaking a delimiter-packed source string.
+            tokens = comic.tokens(field_name)
+            values[label] = [f"{label}: {token}" for token in tokens] if len(tokens) > 1 else raw
         return values
 
     def _record_results(self, results: Iterable[Comic]) -> None:

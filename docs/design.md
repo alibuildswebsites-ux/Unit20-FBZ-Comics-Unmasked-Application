@@ -34,11 +34,11 @@ The real 2022 package is retained under `data/raw/`. The five extracted views ar
 
 ## 8. Functional implementation
 
-The application provides Fantasy/Horror/Science Fiction filtering, author/year grouping, A–Z/Z–A sorting, title search, Unicode-safe handling, repeated-value tokenisation, missing ISBN display, multi-title aggregation, an in-memory search list, advanced author/year/genre/edition/language/name-type/title search, classification/names/titles/topics searches, XML adaptation, top-10 query/result reporting and >100-result threshold notification.
+The application provides Fantasy/Horror/Science Fiction filtering, an interactive genre → author/year → group → A–Z/Z–A workflow, title search, Unicode-safe handling, repeated-value tokenisation, universal missing-value display, consistent multi-value display, multi-title aggregation, an in-memory search list, advanced author/year/genre/edition/language/name-type/title search, classification/names/titles/topics searches, XML adaptation, top-10 query/result reporting and >100-result threshold notification.
 
 ## 9. Testing design
 
-The test suite is layered: unit tests cover domain and strategy behaviour; integration tests cover CSV/service boundaries and real five-view loading; CLI/end-to-end tests cover user-visible results/no-results and ordering. A real-data acceptance script checks the official row counts, leading-zero IDs, genre counts, author-role search, Unicode title search, missing ISBN, multi-value metadata, aggregation, ordering and the >100 notification.
+The test suite is layered: unit tests cover domain and strategy behaviour plus universal missing-value and multi-value display rules; integration tests cover CSV/service boundaries and real five-view loading; CLI/E2E tests cover user-visible results, no-results, ordering and the complete interactive group-selection workflow. A real-data acceptance script checks the official row counts, leading-zero IDs, genre counts, author-role search, Unicode title search, universal missing-value display, missing ISBN, multi-value metadata/display, aggregation, ordering and the >100 notification.
 
 ## 10. Evaluation
 

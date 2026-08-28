@@ -34,11 +34,11 @@ Developer-produced tests contain the FBZ-specific expected behaviour and edge ca
 
 The supplied British Library package was loaded directly. The five views matched the observed acceptance counts: records.csv 57,746; names.csv 117,873; titles.csv 77,280; topics.csv 77,919; classification.csv 57,844. All observed first-record IDs begin with zero and all observed titles are non-empty.
 
-The aggregated names view contains 54,147 unique BL record IDs, meaning 63,726 repeated facet rows are collapsed for the user-facing encyclopedia. Exact genre counts are Fantasy 4,793, Horror 1,929 and Science Fiction 9,356. The final acceptance run also demonstrated an explicit author-role search, a Unicode title, a missing ISBN, multi-value genre handling, both title-order directions and the >100 notification using a real Comic object.
+The aggregated names view contains 54,147 unique BL record IDs, meaning 63,726 repeated facet rows are collapsed for the user-facing encyclopedia. Exact genre counts are Fantasy 4,793, Horror 1,929 and Science Fiction 9,356. The final acceptance run also demonstrated an explicit author-role search, a Unicode title, universal missing-value display, missing ISBN display, multi-value genre/name display, both title-order directions and the >100 notification using a real Comic object.
 
 ## 5. Results
 
-The current automated suite passes **29 tests**. The final real-data acceptance script exits successfully and writes `reports/final_acceptance_report.json`. The report contains machine-readable evidence for all five views, aggregation, author-role searching, Unicode handling, missing ISBN, multi-value data, ordering and the threshold notification.
+The current automated suite passes **33 tests**. The final real-data acceptance script exits successfully and writes `reports/final_acceptance_report.json`. The report contains machine-readable evidence for all five views, aggregation, author-role searching, Unicode handling, universal missing-value display, missing ISBN, multi-value data/display, ordering and the threshold notification.
 
 The >100 condition is deliberately exercised 101 times against a real dataset Comic in a deterministic acceptance check. This is stronger than waiting for an uncontrolled demonstration session to happen to cross the threshold. The report records the record ID, count 101 and the notification flag.
 

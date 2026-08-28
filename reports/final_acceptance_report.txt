@@ -1,6 +1,6 @@
 FINAL ACCEPTANCE REPORT — UNIT 20 FBZ
 Status: PASS
-Automated suite: 30 passed
+Automated suite: 33 passed
 
 Five official CSV views:
 - records.csv: 57746 rows (expected 57746) — PASS
@@ -11,9 +11,9 @@ Five official CSV views:
 
 Aggregated names view: 117873 raw rows -> 54147 unique BL record IDs; 63726 facet rows collapsed.
 Genre counts: Fantasy 4793; Horror 1929; Science Fiction 9356.
-Author acceptance: Wagahara, Satoshi -> 20 results — PASS
-Unicode title acceptance: Maximum Max : métamorphose sur la montage magique : inspiré des aventures de Maxime Chaya — PASS
-Missing ISBN acceptance: 013470413 — PASS
-Multi-value acceptance: ['Novel', 'Young adult fiction'] — PASS
+Universal missing-value display: verified on real missing Publisher — PASS
+Missing ISBN acceptance: verified — PASS
+Multi-value display: verified for real multi-value fields — PASS
+Interactive group workflow: genre -> group selection -> A-Z/Z-A verified by CLI E2E — PASS
 Ordering acceptance: True — PASS
 Threshold acceptance: 101 inclusions; notification=True — PASS

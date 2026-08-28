@@ -107,6 +107,12 @@
     "title": "Maximum Max : métamorphose sur la montage magique : inspiré des aventures de Maxime Chaya",
     "pass": true
   },
+  "missing_value_acceptance": {
+    "record_id": "019368673",
+    "title": "The devil is a part-timer!. 12",
+    "field": "Publisher",
+    "pass": true
+  },
   "missing_isbn_acceptance": {
     "record_id": "013470413",
     "title": "Yoshitoshi ABe's Haibane Renmei anime manga",
@@ -118,6 +124,7 @@
       "Novel",
       "Young adult fiction"
     ],
+    "name_display_verified": true,
     "pass": true
   },
   "ordering_acceptance": {

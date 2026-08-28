@@ -27,3 +27,21 @@ def test_cli_reports_results(tmp_path: Path, capsys) -> None:
     output = capsys.readouterr().out
     assert "Results: 1" in output
     assert "Alpha" in output
+
+
+def test_cli_interactive_completes_genre_group_selection_and_sorting(tmp_path: Path, monkeypatch, capsys) -> None:
+    dataset = tmp_path / "comics.csv"
+    dataset.write_text(
+        "BL record ID,Title,Name,Role,Genre,Date of publication\n"
+        "1,Zeta,Alice,author,Fantasy,1990\n"
+        "2,Alpha,Alice,author,Fantasy,1990\n"
+        "3,Beta,Bob,author,Fantasy,1991\n",
+        encoding="utf-8",
+    )
+    answers = iter(["1", "Fantasy", "author", "1", "za", "9"])
+    monkeypatch.setattr("builtins.input", lambda _prompt: next(answers))
+    assert main([str(dataset), "--interactive"]) == 0
+    output = capsys.readouterr().out
+    assert "Available groups:" in output
+    assert "Group: Alice | Order: Z-A" in output
+    assert output.index("Zeta") < output.index("Alpha")
