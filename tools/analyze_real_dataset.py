@@ -36,9 +36,12 @@ def main() -> None:
     aggregate = AggregatingComicRepository(names)
     comics = aggregate.all()
     stats = DatasetStatistics.summary(comics)
+    author_names = sorted({author for comic in comics for author in comic.authors()})
     result['names_view_aggregated'] = {
         'raw_rows': 117873,
         'unique_record_ids': len(comics),
+        'duplicates_collapsed': 117873 - len(comics),
+        'explicit_author_contributors': len(author_names),
         **stats,
         'top_genres': DatasetStatistics.top_searchable_tokens(comics,'genre',20),
     }

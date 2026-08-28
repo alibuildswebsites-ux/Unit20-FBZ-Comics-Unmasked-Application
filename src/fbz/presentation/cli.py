@@ -24,6 +24,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--name-type", default="")
     parser.add_argument("--title", default="")
     parser.add_argument("--field", choices=("classification", "names", "titles", "topics"))
+    parser.add_argument("--order", choices=("az", "za"), default="az", help="Sort result titles A-Z or Z-A")
+    parser.add_argument("--group-by", choices=("author", "year"), help="Group genre results by author or publication year")
     parser.add_argument("--report", type=Path, help="Write session report as JSON")
     return parser
 
@@ -50,7 +52,9 @@ def _interactive(service: EncyclopediaService) -> None:
                 genre = input("Genre (Fantasy/Horror/Science fiction): ").strip()
                 results = service.filter_genre(genre)
                 mode = input("Group by author or year? [author/year]: ").strip().casefold()
-                grouped = service.group_by_author(genre) if mode == "author" else service.group_by_year(genre)
+                if mode not in {"author", "year"}:
+                    raise ValueError("Grouping must be author or year")
+                grouped = service.group_results(results, mode)
                 ordered = service.sorted_titles(results, ascending=True)
                 _print_results(service, ordered)
                 print(f"Groups: {len(grouped)}")
@@ -133,7 +137,14 @@ def main(argv: list[str] | None = None) -> int:
             _interactive(service)
             return 0
         if args.search_type:
-            results = service.search_title(args.query) if args.search_type == "title" else service.search_field(args.search_type, args.query) if args.search_type in {"author", "genre"} else service.advanced_search(year=args.query)
+            if args.search_type == "title":
+                results = service.search_title(args.query)
+            elif args.search_type == "author":
+                results = service.search_author(args.query)
+            elif args.search_type == "genre":
+                results = service.search_by_type("genre", args.query)
+            else:
+                results = service.search_by_type("year", args.query)
         elif args.field:
             results = service.search_field(args.field, args.query)
         else:
@@ -141,6 +152,15 @@ def main(argv: list[str] | None = None) -> int:
                 author=args.author, year=args.year, genre=args.genre, edition=args.edition,
                 languages=args.languages, name_type=args.name_type, title=args.title or args.query,
             )
+        results = service.sorted_titles(results, ascending=args.order == "az")
+        if args.group_by:
+            genre = args.genre or (args.query if args.search_type == "genre" else "")
+            if not genre:
+                raise ValueError("--group-by requires a genre filter")
+            grouped = service.group_results(results, args.group_by)
+            print(f"Groups by {args.group_by}: {len(grouped)}")
+            for group_name, group_items in list(grouped.items())[:20]:
+                print(f"  {group_name}: {len(group_items)}")
         _print_results(service, results)
         if args.report:
             _write_report(service, args.report)

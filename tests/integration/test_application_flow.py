@@ -9,10 +9,10 @@ from fbz.services.search_service import SearchService
 def test_end_to_end_csv_search_and_favourite_flow(tmp_path: Path) -> None:
     csv_path = tmp_path / "comics.csv"
     csv_path.write_text(
-        "BL record ID,Title,Name,Date of publication,Genre,Topics\n"
-        "0001,Bravo,Ada Lovelace,1998,Fantasy; Comic books,Magic;Science\n"
-        "0002,Alpha,Bob Jones,2001,History,History\n"
-        "0003,Charlie,Ada Lovelace,1998,Fantasy,Magic\n",
+        "BL record ID,Title,Name,Role,Date of publication,Genre,Topics\n"
+        "0001,Bravo,Ada Lovelace,author,1998,Fantasy; Comic books,Magic;Science\n"
+        "0002,Alpha,Bob Jones,author,2001,History,History\n"
+        "0003,Charlie,Ada Lovelace,author,1998,Fantasy,Magic\n",
         encoding="utf-8",
     )
     service = SearchService(CsvComicRepository(csv_path))

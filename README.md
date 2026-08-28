@@ -31,4 +31,8 @@ PYTHONPATH=src .venv/bin/python -m fbz.presentation.cli --help
 
 ## Dataset
 
-Place a supplied Comics Unmasked CSV view in `data/`. The loader preserves CSV values as strings, including identifiers with leading zeros, and validates the required `BL record ID` and `Title` columns.
+The authentic Comics Unmasked 2022 package is already integrated under `data/raw/`, with the five extracted views under `data/raw/extracted/`. The loader preserves CSV values as strings, including identifiers with leading zeros, and validates the required `BL record ID` and `Title` columns. See `RUN.md` for assessor commands and final acceptance steps.
+
+## Mandatory implementation workflow
+
+See `WORKFLOW_RULES.md`. Before every future edit, read the relevant current files and requirements. If anything fails, stop implementation, research/reproduce/root-cause the failure, fix the underlying problem, preflight again, rerun, and only then continue.

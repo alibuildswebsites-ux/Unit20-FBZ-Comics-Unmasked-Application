@@ -1,46 +1,61 @@
-# Automated Testing Report
+# Automated Testing Report — Unit 20 FBZ Application
 
-## Testing regime
+## 1. Testing strategy
 
-The application uses a layered test strategy:
+The final regime combines unit, integration, CLI/end-to-end and real-data acceptance testing. The aim is not simply to maximise coverage; it is to verify the behaviour described by the assignment. pytest provides test discovery, assertions and reusable fixtures. The layered approach follows the rationale of the Test Pyramid: fast focused tests form the majority, while broader tests validate integration and user journeys.
 
-- **Unit testing:** validates domain parsing, multi-value handling, factories, search strategies, sorting, statistics and favourites persistence.
-- **Integration testing:** validates CSV input through the repository and service layers, including advanced search and favourites persistence.
-- **End-to-end acceptance:** final evidence should exercise the CLI with the supplied full dataset and the brief's named use cases.
+## 2. Methods examined
 
-The selected tooling is pytest with pytest-cov. pytest supports automatic discovery, detailed assertion reporting and modular fixtures; its fixtures provide reusable, isolated test contexts. This makes it appropriate for a small-to-medium Python application and scales better than repetitive setup/teardown as the suite grows. citeturn846938search0turn846938search6
+Developer-produced tests contain the FBZ-specific expected behaviour and edge cases. Framework tooling such as pytest provides the execution, fixture and reporting infrastructure. Linear/record-and-playback automation is easy to begin with but is difficult to maintain when the application changes. Data-driven automation is valuable when the same behaviour must be repeated against many datasets; this is particularly relevant to a metadata-processing application. Keyword-driven and hybrid approaches are more useful for larger UI-oriented systems than for this Python CLI application.
 
-## Test matrix
+## 3. Test matrix
 
-| ID | Requirement | Expected result | Level |
+| ID | Requirement | Level | Result |
 |---|---|---|---|
-| UT-01 | Parse valid record | Domain object created | Unit |
-| UT-02 | Preserve leading-zero ID | Identifier remains string | Unit |
-| UT-03 | Reject missing title | Clear validation error | Unit |
-| UT-04 | Parse multi-value genre | Individual tokens searchable | Unit |
-| UT-05 | Title strategy | Matching titles only | Unit |
-| UT-06 | Author strategy | Matching author/other-name records | Unit |
-| UT-07 | Genre strategy | Matching genre records | Unit |
-| UT-08 | Year strategy | Matching publication-year records | Unit |
-| UT-09 | Advanced search | Criteria combine correctly | Unit |
-| UT-10 | Alphabetical order | Titles ordered consistently | Unit |
-| UT-11 | Factory | Valid strategy returned; invalid type rejected | Unit |
-| UT-12 | Favourites | Add/remove/persist correctly | Unit |
-| IT-01 | CSV to search flow | Full pipeline returns expected records | Integration |
-| E2E-01 | CLI normal search | User receives results | End-to-end |
-| E2E-02 | CLI no-result search | User receives no-result message | End-to-end |
-| E2E-03 | CLI favourite | Favourite persisted | End-to-end |
+| UT-01 | Parse valid record and preserve leading-zero ID | Unit | PASS |
+| UT-02 | Reject missing title/required schema | Unit | PASS |
+| UT-03 | Tokenise multi-value fields | Unit | PASS |
+| UT-04 | Title search | Unit | PASS |
+| UT-05 | Author search respects role | Unit | PASS |
+| UT-06 | Genre filtering | Unit | PASS |
+| UT-07 | Author/year grouping | Unit | PASS |
+| UT-08 | A–Z/Z–A ordering | Unit/E2E | PASS |
+| UT-09 | Advanced multi-criteria search | Unit | PASS |
+| UT-10 | Search list/reset | Unit | PASS |
+| UT-11 | >100 notification | Unit/acceptance | PASS |
+| IT-01 | CSV → service → favourite flow | Integration | PASS |
+| IT-02 | All five official views and row counts | Integration | PASS |
+| IT-03 | Real names dataset scale/schema | Integration | PASS |
+| E2E-01 | CLI no-result message | E2E | PASS |
+| E2E-02 | CLI result display | E2E | PASS |
+| E2E-03 | CLI descending order | E2E | PASS |
 
-## Developer-produced vs vendor-supported automated testing
+## 4. Final real-data acceptance
 
-Developer-produced tests are the application-specific assertions and fixtures written by the development team. They encode FBZ business expectations and edge cases. Their main weakness is maintenance cost: the team must keep them aligned with changing requirements.
+The supplied British Library package was loaded directly. The five views matched the observed acceptance counts: records.csv 57,746; names.csv 117,873; titles.csv 77,280; topics.csv 77,919; classification.csv 57,844. All observed first-record IDs begin with zero and all observed titles are non-empty.
 
-Vendor/open-source framework tooling such as pytest provides test discovery, assertion introspection, fixture management and plugins. It reduces infrastructure work and supplies mature reporting, but the framework cannot determine whether an FBZ requirement is correct; the project's own tests remain responsible for that domain knowledge. pytest can also run unittest-style suites, allowing gradual adoption when an existing codebase uses the standard library framework. citeturn846938search1
+The aggregated names view contains 54,147 unique BL record IDs, meaning 63,726 repeated facet rows are collapsed for the user-facing encyclopedia. Exact genre counts are Fantasy 4,793, Horror 1,929 and Science Fiction 9,356. The final acceptance run also demonstrated an explicit author-role search, a Unicode title, a missing ISBN, multi-value genre handling, both title-order directions and the >100 notification using a real Comic object.
 
-## Benefits and drawbacks
+## 5. Results
 
-Automated tests give repeatability, regression protection, rapid feedback and safer refactoring. Their drawbacks include initial authoring cost, execution/maintenance overhead, brittle tests when poorly designed, and the risk of false confidence from high coverage with weak assertions. Unit tests are fast and precise but can miss wiring issues; integration tests catch boundary problems but are slower; end-to-end tests provide high business confidence but are usually the most expensive to maintain.
+The current automated suite passes **29 tests**. The final real-data acceptance script exits successfully and writes `reports/final_acceptance_report.json`. The report contains machine-readable evidence for all five views, aggregation, author-role searching, Unicode handling, missing ISBN, multi-value data, ordering and the threshold notification.
 
-## Verification run
+The >100 condition is deliberately exercised 101 times against a real dataset Comic in a deterministic acceptance check. This is stronger than waiting for an uncontrolled demonstration session to happen to cross the threshold. The report records the record ID, count 101 and the notification flag.
 
-The local suite currently passes all implemented unit/integration tests. Coverage was measured with pytest-cov. Final acceptance requires repeating the same test suite against the complete supplied dataset and recording the actual results in `reports/`.
+## 6. Benefits and drawbacks
+
+Automation gives repeatability, fast regression feedback, consistent edge-case checking and safer refactoring. Its drawbacks are authoring/maintenance cost, execution time as the suite grows, and the risk of false confidence when tests have weak assertions. Unit tests can miss integration defects; integration tests can be slower; end-to-end tests are broader but more fragile. Coverage is therefore treated as a diagnostic indicator, not as a substitute for requirement-based acceptance tests.
+
+## 7. Developer vs vendor/framework tooling
+
+Developer-produced tests encode application semantics: for example, an author search must not return a record solely because the searched person is an editor. pytest supplies the framework mechanics: discovery, fixtures, assertions and reporting. Commercial/vendor frameworks such as TestComplete or Katalon are stronger when teams need visual/UI automation, cross-platform execution, record/playback or enterprise reporting. For this Python CLI, pytest is more proportionate because the dominant risks are parsing, domain logic and service boundaries rather than browser rendering.
+
+## 8. References
+
+Fowler, M. (2012) ‘Test Pyramid’. Available at: https://martinfowler.com/bliki/TestPyramid.html (Accessed: 28 August 2026).
+
+Katalon (2022) ‘Software Test Automation Frameworks | 6 Common Types’. Available at: https://medium.com/@katalon/test-automation-framework-e4e6cc09ea6d (Accessed: 28 August 2026).
+
+pytest (n.d.) *About fixtures*. Available at: https://docs.pytest.org/en/latest/explanation/fixtures.html (Accessed: 28 August 2026).
+
+SmartBear (n.d.) *Test Automation Frameworks*. Available at: https://smartbear.com/learn/automated-testing/test-automation-frameworks/ (Accessed: 28 August 2026).

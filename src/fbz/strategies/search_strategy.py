@@ -25,7 +25,7 @@ class AuthorSearchStrategy(SearchStrategy):
         needle = query.strip().casefold()
         return [
             comic for comic in comics
-            if needle and any(needle in value.casefold() for value in (comic.name, comic.other_names))
+            if needle and any(needle in author.casefold() for author in comic.authors())
         ]
 
 

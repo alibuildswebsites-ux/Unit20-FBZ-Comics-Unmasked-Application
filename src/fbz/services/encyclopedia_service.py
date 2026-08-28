@@ -5,6 +5,7 @@ from collections.abc import Callable, Iterable, Sequence
 
 from fbz.domain.comic import Comic
 from fbz.repositories.comic_repository import ComicRepository
+from fbz.factories.search_strategy_factory import SearchStrategyFactory
 
 ALLOWED_GENRES = ("fantasy", "horror", "science fiction")
 
@@ -37,27 +38,38 @@ class EncyclopediaService:
         self._record_results(results)
         return results
 
-    def search_title(self, title: str) -> list[Comic]:
-        needle = title.strip().casefold()
-        self._query_counts[f"title:{needle}"] += 1
-        results = [comic for comic in self._repository.all() if needle and needle in comic.title.casefold()]
+    def search_by_type(self, search_type: str, query: str) -> list[Comic]:
+        """Run an interchangeable search strategy and record its result set."""
+        self._query_counts[f"{search_type.strip().casefold()}:{query.strip().casefold()}"] += 1
+        results = SearchStrategyFactory.create(search_type).search(self._repository.all(), query)
         self._record_results(results)
         return results
 
+    def search_title(self, title: str) -> list[Comic]:
+        return self.search_by_type("title", title)
+
+    def search_author(self, author: str) -> list[Comic]:
+        return self.search_by_type("author", author)
+
     def group_by_author(self, genre: str) -> dict[str, list[Comic]]:
-        grouped: dict[str, list[Comic]] = defaultdict(list)
-        for comic in self.filter_genre(genre):
-            names = comic.tokens("name") or ((comic.name or "Unknown"),)
-            for author in names:
-                grouped[author].append(comic)
-        return dict(grouped)
+        return self.group_results(self.filter_genre(genre), "author")
 
     def group_by_year(self, genre: str) -> dict[str, list[Comic]]:
+        return self.group_results(self.filter_genre(genre), "year")
+
+    @staticmethod
+    def group_results(comics: Iterable[Comic], group_by: str) -> dict[str, list[Comic]]:
+        """Group an already-filtered result set without repeating the search."""
+        if group_by not in {"author", "year"}:
+            raise ValueError("Grouping must be author or year")
         grouped: dict[str, list[Comic]] = defaultdict(list)
-        for comic in self.filter_genre(genre):
-            years = comic.tokens("date_of_publication") or ((comic.date_of_publication or "Unknown"),)
-            for year in years:
-                grouped[year].append(comic)
+        for comic in comics:
+            if group_by == "author":
+                keys = comic.authors()
+            else:
+                keys = comic.tokens("date_of_publication") or ((comic.date_of_publication or "Unknown"),)
+            for key in keys:
+                grouped[key].append(comic)
         return dict(grouped)
 
     @staticmethod
@@ -85,8 +97,10 @@ class EncyclopediaService:
             if key not in ALLOWED_GENRES:
                 raise ValueError("Genre must be one of: Fantasy, Horror, Science fiction")
             results = [comic for comic in results if any(key == token.casefold() for token in comic.tokens("genre"))]
+        if author.strip():
+            results = SearchStrategyFactory.create("author").search(results, author)
         filters = (
-            (author, "name"), (year, "date_of_publication"), (edition, "edition"),
+            (year, "date_of_publication"), (edition, "edition"),
             (languages, "languages"), (name_type, "type_of_name"),
         )
         for value, field in filters:
@@ -104,12 +118,12 @@ class EncyclopediaService:
         """Search a Phase 2 view-oriented field by a human-friendly name."""
         aliases = {
             "classification": "dewey_classification", "names": "name", "titles": "title",
-            "topics": "topics", "author": "name", "genre": "genre",
+            "topics": "topics", "genre": "genre",
         }
         try:
             attribute = aliases[field.strip().casefold()]
         except KeyError as exc:
-            raise ValueError("Supported searches: classification, names, titles, topics, author, genre") from exc
+            raise ValueError("Supported searches: classification, names, titles, topics, genre") from exc
         needle = query.strip().casefold()
         self._query_counts[f"{field.strip().casefold()}:{needle}"] += 1
         results = []

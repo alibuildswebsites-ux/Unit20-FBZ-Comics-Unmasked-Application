@@ -2,15 +2,16 @@ from __future__ import annotations
 
 from collections import OrderedDict
 
-from fbz.domain.comic import Comic
+from fbz.domain.comic import Comic, Contributor
 from fbz.repositories.comic_repository import ComicRepository
 
 
 class AggregatingComicRepository(ComicRepository):
-    """Collapses facet-view rows into one record per BL record ID.
+    """Collapse facet-view rows into one record per BL record ID.
 
-    The assignment explicitly requires multiple title rows to be displayed as one
-    record entry, with variant metadata such as years and ISBNs represented as lists.
+    Raw facet values remain available as multi-value strings, while contributor
+    name/role pairs are preserved so an author search cannot accidentally match
+    an editor, illustrator, publisher, or other contributor.
     """
 
     def __init__(self, source: ComicRepository) -> None:
@@ -46,10 +47,21 @@ class AggregatingComicRepository(ComicRepository):
                     if cleaned and cleaned not in values:
                         values.append(cleaned)
             merged[field] = ";".join(values)
-        variant_titles = []
+
+        variant_titles: list[str] = []
         for row in rows:
-            for title in (row.title, *([part.strip() for part in row.variant_titles.split(";") if part.strip()] if row.variant_titles else [])):
+            candidates = [row.title]
+            if row.variant_titles:
+                candidates.extend(part.strip() for part in row.variant_titles.split(";") if part.strip())
+            for title in candidates:
                 if title and title != first.title and title not in variant_titles:
                     variant_titles.append(title)
         merged["variant_titles"] = ";".join(variant_titles)
-        return Comic(record_id=first.record_id, title=first.title, **merged)
+
+        contributors: list[Contributor] = []
+        for row in rows:
+            for contributor in row.contributors:
+                if contributor not in contributors:
+                    contributors.append(contributor)
+
+        return Comic(record_id=first.record_id, title=first.title, contributors=tuple(contributors), **merged)

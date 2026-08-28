@@ -9,7 +9,7 @@ def comic(record_id: str, title: str, name: str = "", genre: str = "", year: str
     return Comic.from_mapping({
         "BL record ID": record_id,
         "Title": title,
-        "Name": name,
+        "Name": name, "Role": "author",
         "Genre": genre,
         "Date of publication": year,
     })
@@ -38,3 +38,11 @@ def test_advanced_search_applies_multiple_criteria_and_sorts() -> None:
     ]))
     results = service.advanced_search(SearchCriteria(author="alice", genre="fantasy", year="1998"))
     assert [item.title for item in results] == ["Alpha", "Zeta"]
+
+
+def test_author_search_does_not_match_non_author_contributor() -> None:
+    editor = Comic.from_mapping({
+        "BL record ID": "4", "Title": "Editor Only", "Name": "Alice", "Role": "editor"
+    })
+    author = comic("5", "Author Work", "Alice", "Fantasy", "1998")
+    assert [item.title for item in SearchService(InMemoryComicRepository([editor, author])).search("author", "alice")] == ["Author Work"]

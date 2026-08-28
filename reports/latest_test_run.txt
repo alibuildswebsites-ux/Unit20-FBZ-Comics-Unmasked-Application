@@ -1,0 +1,29 @@
+..............................                                           [100%]
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                                                   Stmts   Miss  Cover   Missing
+------------------------------------------------------------------------------------
+src/fbz/__init__.py                                        0      0   100%
+src/fbz/domain/__init__.py                                 0      0   100%
+src/fbz/domain/comic.py                                   83      2    98%   70, 106
+src/fbz/domain/search_criteria.py                          9      0   100%
+src/fbz/factories/__init__.py                              0      0   100%
+src/fbz/factories/search_strategy_factory.py              12      3    75%   26-28
+src/fbz/presentation/__init__.py                           0      0   100%
+src/fbz/presentation/cli.py                              135     80    41%   46-113, 117-129, 137-138, 143, 147-151, 157-163, 166, 174
+src/fbz/repositories/__init__.py                           0      0   100%
+src/fbz/repositories/aggregating_comic_repository.py      44      1    98%   55
+src/fbz/repositories/comic_repository.py                  13      1    92%   14
+src/fbz/repositories/csv_comic_repository.py              30      2    93%   25, 29
+src/fbz/repositories/xml_comic_repository.py              21      1    95%   20
+src/fbz/services/__init__.py                               0      0   100%
+src/fbz/services/dataset_statistics.py                    14      0   100%
+src/fbz/services/encyclopedia_service.py                 131     12    91%   35, 52, 64, 98, 111-112, 125-126, 162-163, 166-167
+src/fbz/services/favourite_service.py                     33      3    91%   18-19, 21
+src/fbz/services/search_service.py                        25      2    92%   24, 34
+src/fbz/strategies/__init__.py                             0      0   100%
+src/fbz/strategies/search_strategy.py                     24      1    96%   14
+------------------------------------------------------------------------------------
+TOTAL                                                    574    108    81%
+30 passed in 27.11s

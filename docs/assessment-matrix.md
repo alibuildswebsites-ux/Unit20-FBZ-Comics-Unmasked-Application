@@ -1,56 +1,58 @@
-# Unit 20 Assessment Compliance Matrix — Final Audit
+# Unit 20 Assessment Compliance Matrix — Evidence-backed Audit
 
 | Criterion | Evidence | Status |
 |---|---|---|
-| P1 | OOP/SOLID sections in design report; class diagram; `src/fbz/domain`, repositories and strategies | PASS |
-| P2 | Clean coding + data structures/algorithms section; complexity discussion | PASS |
-| P3 | Layered design, real dataset analysis, architecture/class diagrams | PASS |
-| P4 | Automated testing regime, matrix and test hierarchy | PASS |
-| P5 | Working FBZ application under `src/fbz/`, five real CSV views integrated | PASS |
-| P6 | Unit/integration/E2E/real-data testing approaches compared | PASS |
-| P7 | 27 automated tests passing in final run | PASS |
-| M1 | Creational, structural/architectural and behavioural pattern analysis | PASS |
-| M2 | Strategy + Factory + Repository + aggregation adapter implemented | PASS |
-| M3 | Design report evaluates effectiveness/trade-offs | PASS |
-| M4 | Developer-produced tests vs pytest tooling comparison | PASS |
-| D1 | SOLID impact evaluation with benefits/costs | PASS |
-| D2 | Automated testing benefits/drawbacks across application types | PASS |
+| P1 | OOP relationships, SOLID analysis, class diagram, domain/repository/strategy code | PASS |
+| P2 | Clean-code research, modular design, data structures, algorithm complexity and concrete FBZ examples | PASS |
+| P3 | Real five-view dataset, architecture, class relationships and implemented application | PASS |
+| P4 | Layered automated testing strategy, test matrix and real-data acceptance | PASS |
+| P5 | Working application with five real CSV views and required search/filter/list/report behaviours | PASS |
+| P6 | Unit, integration, E2E and real-data testing methods examined and implemented | PASS |
+| P7 | 30 automated tests pass; real-data acceptance script passes | PASS |
+| M1 | Creational, structural/architectural and behavioural pattern research, comparison and examples | PASS |
+| M2 | Strategy + simple Factory + Repository + aggregation refinement implemented and justified | PASS |
+| M3 | Critical effectiveness/trade-off analysis of SOLID, clean coding and patterns | PASS |
+| M4 | Developer-produced tests vs framework/vendor approaches; framework and automation-method comparison | PASS |
+| D1 | Critical evaluation of SOLID's impact, change boundaries, testability and abstraction cost | PASS |
+| D2 | Critical comparison of automated testing across application types and test levels | PASS |
 
-## Functional acceptance audit
+## Functional acceptance evidence
 
-- [x] Real Comics Unmasked package integrated under `data/raw/`
-- [x] Five official CSV views extracted under `data/raw/extracted/`
-- [x] `records.csv` 57,746 rows / 27 columns
-- [x] `names.csv` 117,873 rows / 27 columns
-- [x] `titles.csv` 77,280 rows / 27 columns
-- [x] `topics.csv` 77,919 rows / 28 columns
-- [x] `classification.csv` 57,844 rows / 27 columns
+- [x] Authentic Comics Unmasked 2022 package retained under `data/raw/`
+- [x] records.csv 57,746 rows
+- [x] names.csv 117,873 rows
+- [x] titles.csv 77,280 rows
+- [x] topics.csv 77,919 rows
+- [x] classification.csv 57,844 rows
 - [x] Leading-zero BL record IDs preserved
-- [x] Multiple rows aggregated by BL record ID for user-facing records
-- [x] Fantasy/Horror/Science Fiction exact filtering
-- [x] Author grouping
+- [x] 117,873 names rows aggregated to 54,147 unique records
+- [x] Fantasy 4,793 / Horror 1,929 / Science Fiction 9,356 exact filtering
+- [x] Author grouping based on explicit author/writer roles
 - [x] Publication-year grouping
-- [x] A–Z and Z–A title sorting
+- [x] A–Z and Z–A sorting
 - [x] Manual title search
-- [x] Special-character/Unicode-safe handling
+- [x] Unicode/special-character title search
 - [x] Repeated-value tokenisation
-- [x] Missing ISBN display handling
+- [x] Missing ISBN display
+- [x] Multiple title/row aggregation
 - [x] In-memory search list
-- [x] Advanced search: author/year/genre/edition/languages/name type/title
-- [x] Phase 2 searches: classification/names/titles/topics
-- [x] XML source adapter
-- [x] Search telemetry
+- [x] Advanced author/year/genre/edition/languages/name-type/title search
+- [x] Classification/names/titles/topics searches
+- [x] XML repository adapter
 - [x] Top-10 query/result reporting
-- [x] >100 search-result threshold notification
-- [x] Reset/clear behaviour
-- [x] Automated tests
-- [x] Final design report
-- [x] Final testing report
-- [x] 10-minute presentation with speaker notes
-- [x] Architecture and class diagrams
+- [x] >100 notification verified at 101 inclusions
+- [x] Automated tests: 30 passed
+- [x] Real-data acceptance report generated
+- [x] Design/implementation report regenerated
+- [x] Automated testing report regenerated
+- [x] 12-slide presentation with substantive notes regenerated
+- [x] Harvard references added
 
-## Verification record
+## Final verification commands
 
-Final command: `.venv/bin/pytest -q --cov=fbz --cov-report=term-missing`
-
-Result: **27 passed**. Overall measured coverage in the final run: **82%**. The lower total compared with the earlier 93% run is primarily because the final implementation added the interactive CLI and additional production paths; coverage is reported transparently rather than hidden. The functional tests and real-data acceptance tests all pass.
+```text
+.venv/bin/pytest -q
+PYTHONPATH=src .venv/bin/python tools/run_acceptance.py
+PYTHONPATH=src .venv/bin/python tools/analyze_real_dataset.py
+PYTHONPATH=src .venv/bin/python tools/build_submission.py
+```

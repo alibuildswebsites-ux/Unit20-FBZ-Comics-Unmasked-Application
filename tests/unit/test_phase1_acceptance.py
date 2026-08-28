@@ -5,7 +5,7 @@ from fbz.services.encyclopedia_service import EncyclopediaService
 
 def c(rid: str, title: str, name: str, genre: str, year: str, isbn: str = "") -> Comic:
     return Comic.from_mapping({
-        "BL record ID": rid, "Title": title, "Name": name, "Genre": genre,
+        "BL record ID": rid, "Title": title, "Name": name, "Role": "author", "Genre": genre,
         "Date of publication": year, "ISBN": isbn,
         "Topics": "A;B", "Variant titles": "Alt title",
     })
@@ -44,3 +44,12 @@ def test_phase1_clear_state_and_safe_display_values() -> None:
     assert service.format_record(results[0])["Topics"] == ["Topics: A", "Topics: B"]
     service.clear_search_results()
     assert service.current_results == ()
+
+
+def test_group_results_does_not_reexecute_search() -> None:
+    service = EncyclopediaService(InMemoryComicRepository([c("1", "Alpha", "Alice", "Fantasy", "1990")]))
+    results = service.filter_genre("fantasy")
+    before = service.top_search_queries()
+    grouped = service.group_results(results, "author")
+    assert [item.title for item in grouped["Alice"]] == ["Alpha"]
+    assert service.top_search_queries() == before

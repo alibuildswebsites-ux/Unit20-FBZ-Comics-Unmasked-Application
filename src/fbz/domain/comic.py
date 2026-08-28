@@ -6,6 +6,21 @@ from typing import Mapping
 
 
 @dataclass(frozen=True, slots=True)
+class Contributor:
+    """One name/role relationship from the Comics Unmasked names view."""
+
+    name: str
+    role: str = ""
+
+    def role_tokens(self) -> tuple[str, ...]:
+        return _split_multivalue(self.role)
+
+    def is_author(self) -> bool:
+        """Treat explicit author/writer roles as author contributors."""
+        return any(token.casefold() in {"author", "writer"} for token in self.role_tokens())
+
+
+@dataclass(frozen=True, slots=True)
 class Comic:
     """Immutable domain representation of one catalogue record."""
 
@@ -36,6 +51,7 @@ class Comic:
     genre: str = ""
     languages: str = ""
     notes: str = ""
+    contributors: tuple[Contributor, ...] = ()
 
     @classmethod
     def from_mapping(cls, row: Mapping[str, str]) -> "Comic":
@@ -90,12 +106,20 @@ class Comic:
             raise ValueError("Record is missing BL record ID")
         if not values["title"]:
             raise ValueError("Record is missing Title")
-        return cls(**values)
+
+        name = values["name"]
+        role = values["role"]
+        contributor = (Contributor(name=name, role=role),) if name else ()
+        return cls(**values, contributors=contributor)
 
     def tokens(self, field: str) -> tuple[str, ...]:
         """Return normalised multi-value tokens for semicolon/slash-delimited fields."""
         raw = getattr(self, field, "")
         return tuple(token for token in _split_multivalue(raw) if token)
+
+    def authors(self) -> tuple[str, ...]:
+        """Return only contributors explicitly identified as authors/writers."""
+        return tuple(dict.fromkeys(c.name for c in self.contributors if c.name and c.is_author()))
 
     def matches_text(self, query: str) -> bool:
         needle = _normalise(query)

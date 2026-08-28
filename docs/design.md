@@ -1,97 +1,45 @@
-# Design and Implementation Document
+# Design and Implementation — Unit 20 FBZ Application
 
-## 1. Scenario
+## 1. Scenario and requirements
 
-Fantasy Bazaar (FBZ) is a local comic-book shop that wants a data-processing application around the British Library *Comics Unmasked* metadata. The assignment asks for dataset loading, genre and author grouping/filtering, publication-year sorting/filtering, alphabetical title selection, search, favourites, advanced multi-criteria search and specified top-result/search views.
+Fantasy Bazaar needs a maintainable application around the British Library Comics Unmasked metadata. The implementation loads the real five-view CSV package, supports the required genre browse/search workflow, preserves catalogue identifiers and multi-value metadata, and provides the advanced search, in-memory search list and popularity-reporting behaviour specified by the brief.
 
-## 2. Functional requirements
+## 2. Architecture
 
-1. Load the supplied CSV dataset into application memory.
-2. Preserve metadata faithfully, including record identifiers that may contain leading zeroes.
-3. Search/filter by title, author, genre and year.
-4. Sort records alphabetically by title.
-5. Support free-text metadata search.
-6. Support advanced searches combining multiple criteria.
-7. Display a clear message when no result is found.
-8. Save and remove favourites independently of the source dataset.
-9. Tokenise multi-value metadata such as Genre and Topics.
-10. Provide dataset statistics and top searchable-token summaries to support evidence.
+The application is divided into presentation, application services, domain, strategy/factory and repository layers. `CsvComicRepository` owns CSV I/O. `AggregatingComicRepository` converts the names facet view into one user-facing record per BL record ID. `Comic` and `Contributor` model domain data. `EncyclopediaService` coordinates the scenario-specific workflow, while `SearchService` demonstrates the strategy/factory search abstraction. The CLI is responsible only for input/output and delegates business decisions to services.
 
-## 3. Non-functional requirements
+## 3. OOP relationships
 
-- Maintainability: responsibilities are separated into domain, repository, service and presentation modules.
-- Testability: services depend on abstractions and can be supplied with an in-memory repository.
-- Reliability: source parsing validates required columns and reports invalid rows with row numbers.
-- Data fidelity: CSV identifiers remain strings and UTF-8 BOMs are supported.
-- Extensibility: search variants can be added as new Strategy implementations.
+`Comic` encapsulates record state and domain operations such as multi-value tokenisation and author extraction. `Contributor` represents a name/role relationship. `ComicRepository` is an abstraction implemented by CSV, in-memory and XML repositories. `SearchStrategy` is an abstraction implemented by title, author, genre and year strategies. These relationships demonstrate inheritance for substitutable contracts, association/dependency injection between services and repositories, and composition of repository state from domain objects.
 
-## 4. OOP class relationships
+## 4. SOLID design
 
-```text
-ComicRepository (abstract)
-        ▲
-        │ implements
-CsvComicRepository       InMemoryComicRepository
-        │                       │
-        └──────────┬────────────┘
-                   │ injected into
-             SearchService
-                   │
-                   ├── SearchStrategyFactory
-                   │       ├── TitleSearchStrategy
-                   │       ├── AuthorSearchStrategy
-                   │       ├── GenreSearchStrategy
-                   │       └── YearSearchStrategy
-                   │
-             FavouriteService
-```
+**Single Responsibility:** each major class has a focused reason to change. **Open/Closed:** new search strategies can be added without rewriting the service. **Liskov Substitution:** repository and strategy implementations honour their contracts. **Interface Segregation:** contracts are small and focused. **Dependency Inversion:** services depend on the repository abstraction rather than CSV implementation.
 
-## 5. SOLID application
+The design was refined after inspecting the real names view: multiple rows can associate different roles with the same record. A flat `name` field is therefore insufficient for an author-specific search. `Contributor(name, role)` preserves the relationship, and `Comic.authors()` filters explicit author/writer roles. This prevents a user searching for an author from receiving records solely because the same person was an editor or illustrator.
 
-### Single Responsibility
-`CsvComicRepository` loads CSV records. `Comic` models a catalogue record. `SearchService` coordinates searches. `FavouriteService` owns favourites persistence. Each class therefore has a focused reason to change.
+## 5. Clean coding, data structures and algorithms
 
-### Open/Closed
-New search algorithms can be added as new `SearchStrategy` implementations without rewriting the search service.
+The implementation uses descriptive names, type hints, immutable dataclasses, small methods, early validation, explicit exceptions and separated I/O/business logic. Records are held as immutable tuples after loading. Basic filtering/search is O(n); alphabetical sorting is O(n log n); token frequency aggregation is O(n) expected over the observed token stream. The design deliberately favours deterministic linear scans because the assignment asks for an in-memory educational application. A database index or inverted search index would become preferable for much larger or frequently changing collections.
 
-### Liskov Substitution
-Concrete strategies honour the `SearchStrategy.search` contract and can be substituted by the service/factory without changing the caller's expectations.
+Clean coding directly improves algorithmic reasoning. A monolithic function would combine parsing, aggregation, filtering, sorting and presentation, making both correctness and complexity difficult to inspect. Separating those operations means each algorithm has a clear input/output contract and can be tested independently.
 
-### Interface Segregation
-The repository abstraction contains only data-access behaviour needed by consumers. Search algorithms depend on a focused strategy contract rather than a large multi-purpose interface.
+## 6. Design patterns
 
-### Dependency Inversion
-`SearchService` depends on `ComicRepository`, not on `CsvComicRepository`. This permits in-memory repositories in tests and alternative data stores later.
+The project uses Strategy for interchangeable search algorithms, a simple Factory for strategy construction, and Repository as a structural/architectural boundary around storage. The patterns were selected because the application actually has multiple search behaviours and multiple source representations. The project deliberately avoids claiming the simple factory is the formal GoF Factory Method.
 
-## 6. Clean coding
+## 7. Dataset integration
 
-The implementation uses explicit names, small methods, type hints, immutable domain records, early validation and separation of I/O from business logic. Error messages identify the failing row or unsupported search type. No business rules are embedded in the command-line interface.
+The real 2022 package is retained under `data/raw/`. The five extracted views are independently loadable. The names view contains 117,873 rows and 54,147 unique BL record IDs. The aggregation repository collapses 63,726 repeated facet rows while retaining multi-value fields and contributor role relationships. The raw source is never overwritten.
 
-## 7. Data structures and algorithms
+## 8. Functional implementation
 
-- Records are represented as immutable `Comic` objects in a tuple-backed repository.
-- Search scans the in-memory sequence linearly: O(n) for a simple search.
-- Alphabetical sorting uses Python's stable Timsort: O(n log n) average/worst case for sorting.
-- Advanced search narrows the current result sequence criterion-by-criterion.
-- Frequency summaries use `Counter`, giving O(n) expected aggregation over the number of tokens observed.
-
-The design favours clarity and correctness for a dataset-processing assignment. For very large future datasets, indexed dictionaries or database-backed search could reduce repeated linear scans.
-
-## 8. Design patterns
-
-### Strategy — behavioural
-Each search algorithm is isolated behind `SearchStrategy`. This makes the algorithms interchangeable and reduces conditional branching in the service.
-
-### Simple Factory — creational technique
-`SearchStrategyFactory` centralises creation of the concrete strategy selected by a user's search type. The documentation deliberately calls this a simple factory rather than incorrectly claiming it is the full GoF Factory Method pattern.
-
-### Repository — structural/architectural pattern
-`ComicRepository` isolates persistence/data access from application services. The concrete CSV repository can therefore change without rewriting search behaviour.
+The application provides Fantasy/Horror/Science Fiction filtering, author/year grouping, A–Z/Z–A sorting, title search, Unicode-safe handling, repeated-value tokenisation, missing ISBN display, multi-title aggregation, an in-memory search list, advanced author/year/genre/edition/language/name-type/title search, classification/names/titles/topics searches, XML adaptation, top-10 query/result reporting and >100-result threshold notification.
 
 ## 9. Testing design
 
-The project uses unit tests for model, parser, search strategies, factory, statistics and favourites; an integration test covers CSV → repository → search → favourites. pytest fixtures and temporary paths provide repeatable isolated test contexts.
+The test suite is layered: unit tests cover domain and strategy behaviour; integration tests cover CSV/service boundaries and real five-view loading; CLI/end-to-end tests cover user-visible results/no-results and ordering. A real-data acceptance script checks the official row counts, leading-zero IDs, genre counts, author-role search, Unicode title search, missing ISBN, multi-value metadata, aggregation, ordering and the >100 notification.
 
-## 10. Implementation evidence
+## 10. Evaluation
 
-Source code is under `src/fbz/`; automated tests are under `tests/`. The current test run passes all implemented tests. The full supplied dataset must be placed in `data/` before final dataset-specific acceptance evidence can be produced.
+The final design is more maintainable and testable than a procedural alternative because change boundaries are explicit. Its trade-off is additional abstraction and indirection. Strategy is justified by multiple search behaviours; Repository is justified by multiple source representations; aggregation is justified by the facet-row structure of the real dataset. The result is not “SOLID for its own sake”; each abstraction is connected to an identified requirement or data characteristic.

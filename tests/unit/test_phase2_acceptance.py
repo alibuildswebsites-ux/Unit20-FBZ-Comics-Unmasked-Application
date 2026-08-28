@@ -7,7 +7,7 @@ from fbz.services.encyclopedia_service import EncyclopediaService
 
 def c(rid: str, title: str, name: str, genre: str, year: str, edition: str = "", language: str = "English", dewey: str = "741.5") -> Comic:
     return Comic.from_mapping({
-        "BL record ID": rid, "Title": title, "Name": name, "Genre": genre,
+        "BL record ID": rid, "Title": title, "Name": name, "Role": "author", "Genre": genre,
         "Date of publication": year, "Edition": edition, "Languages": language,
         "Dewey classification": dewey, "Topics": "Masks;Crime",
     })
