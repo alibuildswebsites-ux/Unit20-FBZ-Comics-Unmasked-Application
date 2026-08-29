@@ -1,0 +1,24 @@
+{"path":"src/fbz/__init__.py","area":"package","preview":"Fantasy Bazaar dataset-processing application package"}
+{"path":"src/fbz/domain/__init__.py","area":"domain","preview":"Domain package marker"}
+{"path":"src/fbz/domain/comic.py","area":"domain-model","preview":"Comic and Contributor domain model; CSV mapping and value tokenisation"}
+{"path":"src/fbz/domain/search_criteria.py","area":"domain-model","preview":"Immutable advanced-search criteria"}
+{"path":"src/fbz/factories/__init__.py","area":"factory","preview":"Factory package marker"}
+{"path":"src/fbz/factories/search_strategy_factory.py","area":"search-factory","preview":"Maps user-selected search type to concrete strategy"}
+{"path":"src/fbz/presentation/__init__.py","area":"presentation","preview":"Presentation package marker"}
+{"path":"src/fbz/presentation/cli.py","area":"cli-entrypoint","preview":"Command-line and interactive user entrypoint; dataset path and report path arguments"}
+{"path":"src/fbz/repositories/__init__.py","area":"repository","preview":"Repository package marker"}
+{"path":"src/fbz/repositories/comic_repository.py","area":"repository-abstraction","preview":"ComicRepository abstraction and in-memory implementation"}
+{"path":"src/fbz/repositories/csv_comic_repository.py","area":"file-input","preview":"CSV file parser, schema validation, row-to-domain mapping"}
+{"path":"src/fbz/repositories/xml_comic_repository.py","area":"xml-input","preview":"XML file parser and record-to-domain adaptation"}
+{"path":"src/fbz/repositories/aggregating_comic_repository.py","area":"repository-transform","preview":"Aggregates facet rows by BL record ID and preserves contributors"}
+{"path":"src/fbz/services/__init__.py","area":"service","preview":"Service package marker"}
+{"path":"src/fbz/services/dataset_statistics.py","area":"statistics","preview":"Aggregates token frequencies and dataset counts"}
+{"path":"src/fbz/services/encyclopedia_service.py","area":"application-service","preview":"Genre/search/group/format/result-count business logic and threshold callback"}
+{"path":"src/fbz/services/favourite_service.py","area":"persistence","preview":"JSON favourite-ID file read/write"}
+{"path":"src/fbz/services/search_service.py","area":"search-service","preview":"Strategy-based search service"}
+{"path":"src/fbz/strategies/__init__.py","area":"strategy","preview":"Strategy package marker"}
+{"path":"src/fbz/strategies/search_strategy.py","area":"search-strategies","preview":"Title, author, genre and year query strategies"}
+{"path":"tools/analyze_real_dataset.py","area":"dataset-tool","preview":"Reads official extracted CSV views and emits analysis JSON"}
+{"path":"tools/prepare_dataset.py","area":"dataset-tool","preview":"Reads names.csv and writes filtered fantasy/horror/science-fiction CSV"}
+{"path":"tools/run_acceptance.py","area":"acceptance-tool","preview":"Runs real-data acceptance assertions and writes final acceptance JSON"}
+{"path":"tools/build_submission.py","area":"submission-tool","preview":"Builds documents/slides/figures from reports and markdown sources"}

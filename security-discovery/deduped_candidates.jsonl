@@ -1,0 +1,1 @@
+{"candidate_id":"FD-XML-001","raw_candidate_ids":["FD-XML-001"],"candidate_ledgers":["security-discovery/FD-XML-001_candidate_ledger.jsonl"],"title":"XML input reaches ElementTree.parse without a hostile-input security regression","disposition":"deferred","reason":"No duplicate candidate; proof gap is exact parser-hardening/hostile-input closure."}
